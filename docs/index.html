@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Overview — Market Dashboard</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+:root{--bg:#0e1117;--card:#1a1a2e;--border:#2d2d44;--text:#fafafa;--sub:#888;
+      --accent:#0a84ff;--green:#00c805;--red:#ff3b30}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.5}
+a{text-decoration:none;color:inherit}
+nav{display:flex;align-items:center;padding:12px 24px;background:var(--card);
+    border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.brand{font-weight:700;font-size:1.1rem;margin-right:32px}
+.nav-links{display:flex;gap:6px}
+.nav-link{padding:7px 14px;border-radius:7px;color:var(--sub);font-size:.875rem;transition:all .15s}
+.nav-link:hover,.nav-link.active{background:var(--border);color:var(--text)}
+main{max-width:1200px;margin:0 auto;padding:28px 24px}
+h1{font-size:1.6rem;font-weight:700;margin-bottom:4px}
+h2{font-size:1.05rem;font-weight:600;margin-bottom:14px;color:var(--text)}
+.sub{color:var(--sub);font-size:.82rem;margin-bottom:24px}
+hr{border:none;border-top:1px solid var(--border);margin:28px 0}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px}
+.metric-label{font-size:.78rem;color:var(--sub);margin-bottom:6px}
+.metric-value{font-size:1.45rem;font-weight:700}
+.metric-delta{font-size:.83rem;margin-top:5px}
+.pos{color:var(--green)}.neg{color:var(--red)}.neu{color:var(--sub)}
+.toggle{display:flex;gap:6px;margin:0 0 20px;flex-wrap:wrap}
+.btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);
+     background:transparent;color:var(--sub);cursor:pointer;font-size:.83rem;transition:all .15s}
+.btn:hover,.btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.period-data{display:none}
+table{width:100%;border-collapse:collapse;font-size:.875rem}
+th{text-align:left;padding:10px 14px;color:var(--sub);font-weight:500;
+   border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.03)}
+.rank-num{color:var(--sub);font-weight:700}
+footer{text-align:center;padding:28px;color:var(--sub);font-size:.8rem;
+       border-top:1px solid var(--border);margin-top:48px}
+.sbtn{padding:6px 13px;border-radius:7px;border:1px solid var(--border);
+      background:transparent;color:var(--text);cursor:pointer;font-size:.83rem;transition:all .15s}
+.sbtn:hover,.sbtn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.sbtn-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.stats-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin:20px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.stat-label{font-size:.72rem;color:var(--sub);margin-bottom:4px}
+.stat-val{font-size:1rem;font-weight:700}
+.key-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+@media(max-width:768px){
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-2{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(4,1fr)}
+  .key-stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand">📊 Market Dashboard</span>
+  <div class="nav-links"><a href="index.html" class="nav-link active">📊 Overview</a><a href="rotation.html" class="nav-link">🔄 Sector Rotation</a><a href="deepdive.html" class="nav-link">🔍 Deep Dive</a></div>
+</nav>
+<main>
+<h1>Market Dashboard</h1>
+<p class="sub">Last updated: 2026-06-10 &nbsp;·&nbsp; Sector rotation & trend analysis</p>
+
+<h2>Major Indices — 1D / 1M</h2>
+<div class="grid-4">
+<div class="card">
+  <div class="metric-label">S&P 500</div>
+  <div class="metric-value neg">-0.29% <span style="font-size:.9rem">1D</span></div>
+  <div class="metric-delta neg">-0.08% (1M)</div>
+</div>
+<div class="card">
+  <div class="metric-label">Nasdaq 100</div>
+  <div class="metric-value neg">-1.15% <span style="font-size:.9rem">1D</span></div>
+  <div class="metric-delta neg">-0.48% (1M)</div>
+</div>
+<div class="card">
+  <div class="metric-label">Dow Jones</div>
+  <div class="metric-value pos">+0.10% <span style="font-size:.9rem">1D</span></div>
+  <div class="metric-delta pos">+2.73% (1M)</div>
+</div>
+<div class="card">
+  <div class="metric-label">Russell 2000</div>
+  <div class="metric-value pos">+0.32% <span style="font-size:.9rem">1D</span></div>
+  <div class="metric-delta pos">+0.30% (1M)</div>
+</div></div>
+
+<hr>
+<h2>1-Month Performance (Indexed to 100)</h2>
+<div style="height:320px; width:100%;">                            <div id="fb50f5c1-8f51-4a03-b3dd-88f5911d934e" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fb50f5c1-8f51-4a03-b3dd-88f5911d934e")) {                    Plotly.newPlot(                        "fb50f5c1-8f51-4a03-b3dd-88f5911d934e",                        [{"hovertemplate":"\u003cb\u003eS&P 500\u003c\u002fb\u003e: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"width":2},"mode":"lines","name":"S&P 500","x":["2026-05-12T00:00:00.000","2026-05-13T00:00:00.000","2026-05-14T00:00:00.000","2026-05-15T00:00:00.000","2026-05-18T00:00:00.000","2026-05-19T00:00:00.000","2026-05-20T00:00:00.000","2026-05-21T00:00:00.000","2026-05-22T00:00:00.000","2026-05-25T00:00:00.000","2026-05-26T00:00:00.000","2026-05-27T00:00:00.000","2026-05-28T00:00:00.000","2026-05-29T00:00:00.000","2026-06-01T00:00:00.000","2026-06-02T00:00:00.000","2026-06-03T00:00:00.000","2026-06-04T00:00:00.000","2026-06-05T00:00:00.000","2026-06-08T00:00:00.000","2026-06-09T00:00:00.000","2026-06-10T00:00:00.000"],"y":{"dtype":"f8","bdata":"AAAAAAAAWUCkcD0K1yNZQGZmZmZmVllAuB6F61EIWUCkcD0K1wNZQJqZmZmZ2VhAexSuR+EaWUBI4XoUridZQHE9CtejQFlAAAAAAAAA+H\u002fsUbgehWtZQArXo3A9allArkfhehSOWUAfhetRuJ5ZQHE9CtejsFlAmpmZmZm5WUDsUbgehYtZQKRwPQrXo1lACtejcD36WEApXI\u002fC9QhZQGZmZmZm9lhAAAAAAAAA+H8="},"type":"scatter"},{"hovertemplate":"\u003cb\u003eNasdaq 100\u003c\u002fb\u003e: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"width":2},"mode":"lines","name":"Nasdaq 100","x":["2026-05-12T00:00:00.000","2026-05-13T00:00:00.000","2026-05-14T00:00:00.000","2026-05-15T00:00:00.000","2026-05-18T00:00:00.000","2026-05-19T00:00:00.000","2026-05-20T00:00:00.000","2026-05-21T00:00:00.000","2026-05-22T00:00:00.000","2026-05-25T00:00:00.000","2026-05-26T00:00:00.000","2026-05-27T00:00:00.000","2026-05-28T00:00:00.000","2026-05-29T00:00:00.000","2026-06-01T00:00:00.000","2026-06-02T00:00:00.000","2026-06-03T00:00:00.000","2026-06-04T00:00:00.000","2026-06-05T00:00:00.000","2026-06-08T00:00:00.000","2026-06-09T00:00:00.000","2026-06-10T00:00:00.000"],"y":{"dtype":"f8","bdata":"AAAAAAAAWUCkcD0K10NZQOF6FK5HcVlAj8L1KFwPWUCkcD0K1\u002fNYQFyPwvUozFhA9ihcj8I1WUBSuB6F60FZQD0K16NwXVlAAAAAAAAA+H9xPQrXo9BZQClcj8L1yFlAcT0K16MAWkApXI\u002fC9RhaQOF6FK5HQVpAAAAAAABgWkAfhetRuE5aQK5H4XoULlpAXI\u002fC9SjsWEAAAAAAAFBZQIXrUbgeBVlAAAAAAAAA+H8="},"type":"scatter"},{"hovertemplate":"\u003cb\u003eDow Jones\u003c\u002fb\u003e: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"width":2},"mode":"lines","name":"Dow Jones","x":["2026-05-12T00:00:00.000","2026-05-13T00:00:00.000","2026-05-14T00:00:00.000","2026-05-15T00:00:00.000","2026-05-18T00:00:00.000","2026-05-19T00:00:00.000","2026-05-20T00:00:00.000","2026-05-21T00:00:00.000","2026-05-22T00:00:00.000","2026-05-25T00:00:00.000","2026-05-26T00:00:00.000","2026-05-27T00:00:00.000","2026-05-28T00:00:00.000","2026-05-29T00:00:00.000","2026-06-01T00:00:00.000","2026-06-02T00:00:00.000","2026-06-03T00:00:00.000","2026-06-04T00:00:00.000","2026-06-05T00:00:00.000","2026-06-08T00:00:00.000","2026-06-09T00:00:00.000","2026-06-10T00:00:00.000"],"y":{"dtype":"f8","bdata":"AAAAAAAAWUBmZmZmZvZYQIXrUbgeJVlAMzMzMzPjWEC4HoXrUfhYQOF6FK5H0VhAUrgeheshWUBmZmZmZkZZQD0K16NwbVlAAAAAAAAA+H9SuB6F62FZQNejcD0Kd1lAmpmZmZl5WUCamZmZmalZQFK4HoXrsVlAMzMzMzPTWUApXI\u002fC9YhZQPYoXI\u002fC9VlA7FG4HoWbWUDhehSuR5FZQEjhehSul1lAAAAAAAAA+H8="},"type":"scatter"},{"hovertemplate":"\u003cb\u003eRussell 2000\u003c\u002fb\u003e: %{y:.1f}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"width":2},"mode":"lines","name":"Russell 2000","x":["2026-05-12T00:00:00.000","2026-05-13T00:00:00.000","2026-05-14T00:00:00.000","2026-05-15T00:00:00.000","2026-05-18T00:00:00.000","2026-05-19T00:00:00.000","2026-05-20T00:00:00.000","2026-05-21T00:00:00.000","2026-05-22T00:00:00.000","2026-05-25T00:00:00.000","2026-05-26T00:00:00.000","2026-05-27T00:00:00.000","2026-05-28T00:00:00.000","2026-05-29T00:00:00.000","2026-06-01T00:00:00.000","2026-06-02T00:00:00.000","2026-06-03T00:00:00.000","2026-06-04T00:00:00.000","2026-06-05T00:00:00.000","2026-06-08T00:00:00.000","2026-06-09T00:00:00.000","2026-06-10T00:00:00.000"],"y":{"dtype":"f8","bdata":"AAAAAAAAWUDD9ShcjwJZQHsUrkfhKllAj8L1KFyPWEAK16NwPWpYQNejcD0KJ1hAw\u002fUoXI\u002fCWECuR+F6FP5YQJqZmZmZOVlAAAAAAAAA+H+kcD0K17NZQHE9CtejsFlAZmZmZmbWWUBSuB6F67FZQOF6FK5HkVlArkfhehTOWUAzMzMzM3NZQPYoXI\u002fC1VlAexSuR+HqWEDD9ShcjyJZQEjhehSuN1lAAAAAAAAA+H8="},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#f2f5fa"},"error_y":{"color":"#f2f5fa"},"marker":{"line":{"color":"rgb(17,17,17)","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"baxis":{"endlinecolor":"#A2B1C6","gridcolor":"#506784","linecolor":"#506784","minorgridcolor":"#506784","startlinecolor":"#A2B1C6"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"line":{"color":"#283442"}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"marker":{"line":{"color":"#283442"}},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#506784"},"line":{"color":"rgb(17,17,17)"}},"header":{"fill":{"color":"#2a3f5f"},"line":{"color":"rgb(17,17,17)"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#f2f5fa","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#f2f5fa"},"geo":{"bgcolor":"rgb(17,17,17)","lakecolor":"rgb(17,17,17)","landcolor":"rgb(17,17,17)","showlakes":true,"showland":true,"subunitcolor":"#506784"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"dark"},"paper_bgcolor":"rgb(17,17,17)","plot_bgcolor":"rgb(17,17,17)","polar":{"angularaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","radialaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"yaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"},"zaxis":{"backgroundcolor":"rgb(17,17,17)","gridcolor":"#506784","gridwidth":2,"linecolor":"#506784","showbackground":true,"ticks":"","zerolinecolor":"#C8D4E3"}},"shapedefaults":{"line":{"color":"#f2f5fa"}},"sliderdefaults":{"bgcolor":"#C8D4E3","bordercolor":"rgb(17,17,17)","borderwidth":1,"tickwidth":0},"ternary":{"aaxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"baxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""},"bgcolor":"rgb(17,17,17)","caxis":{"gridcolor":"#506784","linecolor":"#506784","ticks":""}},"title":{"x":0.05},"updatemenudefaults":{"bgcolor":"#506784","borderwidth":0},"xaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#283442","linecolor":"#506784","ticks":"","title":{"standoff":15},"zerolinecolor":"#283442","zerolinewidth":2}}},"margin":{"l":0,"r":0,"t":10,"b":0},"legend":{"orientation":"h","yanchor":"bottom","y":1.02,"xanchor":"left","x":0},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","height":320,"hovermode":"x unified"},                        {"responsive": true, "displayModeBar": false}                    )                };            </script>        </div>
+
+<hr>
+<div class="grid-2">
+  <div>
+    <h2>🔥 Leading Sectors</h2>
+    <div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span><b style="margin-right:10px;color:var(--sub)">#1</b>Technology</span><span><span class="pos">+3.0%</span><span style="color:var(--sub);margin-left:12px;font-size:.8rem">score 4.0</span></span></div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span><b style="margin-right:10px;color:var(--sub)">#2</b>Industrials</span><span><span class="pos">+1.4%</span><span style="color:var(--sub);margin-left:12px;font-size:.8rem">score 3.2</span></span></div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span><b style="margin-right:10px;color:var(--sub)">#3</b>Energy</span><span><span class="pos">+3.0%</span><span style="color:var(--sub);margin-left:12px;font-size:.8rem">score 3.0</span></span></div></div>
+  </div>
+  <div>
+    <h2>🧊 Lagging Sectors</h2>
+    <div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span><b style="margin-right:10px;color:var(--sub)">#11</b>Communication</span><span><span class="neg">-4.7%</span><span style="color:var(--sub);margin-left:12px;font-size:.8rem">score -3.4</span></span></div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span><b style="margin-right:10px;color:var(--sub)">#10</b>Consumer Disc.</span><span><span class="neg">-3.6%</span><span style="color:var(--sub);margin-left:12px;font-size:.8rem">score -0.9</span></span></div><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span><b style="margin-right:10px;color:var(--sub)">#9</b>Utilities</span><span><span class="neg">-1.6%</span><span style="color:var(--sub);margin-left:12px;font-size:.8rem">score -0.8</span></span></div></div>
+  </div>
+</div>
+
+<hr>
+<h2>Macro Indicators — 1M</h2>
+<div class="grid-4">
+<div class="card">
+  <div class="metric-label">VIX</div>
+  <div class="metric-value pos" style="font-size:1.2rem">+8.11%</div>
+  <div class="metric-delta neu">1-month</div>
+</div>
+<div class="card">
+  <div class="metric-label">Long Bonds</div>
+  <div class="metric-value neg" style="font-size:1.2rem">-0.73%</div>
+  <div class="metric-delta neu">1-month</div>
+</div>
+<div class="card">
+  <div class="metric-label">Gold</div>
+  <div class="metric-value neg" style="font-size:1.2rem">-9.91%</div>
+  <div class="metric-delta neu">1-month</div>
+</div>
+<div class="card">
+  <div class="metric-label">US Dollar</div>
+  <div class="metric-value pos" style="font-size:1.2rem">+2.45%</div>
+  <div class="metric-delta neu">1-month</div>
+</div></div>
+</main>
+<footer>Updated daily after market close &nbsp;·&nbsp; Data: Yahoo Finance &nbsp;·&nbsp; Last refresh: 2026-06-10</footer>
+<script>
+function switchPeriod(period, ns) {
+  document.querySelectorAll('.' + ns + '-data').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.' + ns + '-' + period).forEach(el => el.style.display = 'block');
+  document.querySelectorAll('.' + ns + '-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.period === period));
+}
+</script>
+</body>
+</html>

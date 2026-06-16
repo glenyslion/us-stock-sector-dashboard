@@ -1,0 +1,36 @@
+name: Daily Data Refresh
+
+on:
+  schedule:
+    - cron: "0 21 * * 1-5"   # 4 PM ET on weekdays (markets closed)
+  workflow_dispatch:           # allow manual trigger from GitHub UI
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch and process market data
+        run: python pipeline/fetch_data.py
+
+      - name: Generate static site
+        run: python pipeline/generate_site.py
+
+      - name: Commit updated files
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Actions"
+          git add data/ docs/
+          git diff --cached --quiet || git commit -m "data: daily refresh $(date +%Y-%m-%d)"
+          git push
