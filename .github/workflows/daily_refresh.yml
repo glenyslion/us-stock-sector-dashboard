@@ -39,6 +39,7 @@ jobs:
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Actions"
+          git pull --rebase origin main
           git add data/ docs/
           git diff --cached --quiet || git commit -m "data: daily refresh $(date +%Y-%m-%d)"
           git push
