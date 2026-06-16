@@ -23,9 +23,13 @@ jobs:
 
       - name: Fetch and process market data
         run: python pipeline/fetch_data.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Generate static site
         run: python pipeline/generate_site.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Commit updated files
         run: |
