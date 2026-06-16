@@ -43,4 +43,4 @@ jobs:
           git reset --mixed origin/main
           git add data/ docs/
           git diff --cached --quiet || git commit -m "data: daily refresh $(date +%Y-%m-%d)"
-          git push
+          git push --force-with-lease
