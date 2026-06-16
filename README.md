@@ -2,7 +2,7 @@
 
 A market intelligence dashboard tracking US equity sector rotation, momentum, and relative performance — updated automatically every weekday after market close.
 
-**Live dashboard:** https://glenyslion.github.io/us-stock-sector-dashboard/
+**Live dashboard:** https://glenyslion.github.io/us-stock-sector-dashboard/index.html
 
 ---
 
