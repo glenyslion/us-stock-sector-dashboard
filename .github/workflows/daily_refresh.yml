@@ -23,7 +23,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install anthropic --upgrade
+          python -c "import anthropic; print('anthropic version:', anthropic.__version__)"
 
       - name: Fetch and process market data
         run: python pipeline/fetch_data.py
